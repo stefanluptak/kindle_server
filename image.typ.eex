@@ -1,21 +1,38 @@
-#set page(width: 600pt, height: 800pt, margin: 5%)
+#set page(width: 600pt, height: 800pt, margin: 5pt)
 
 #set text(weight: "bold", font: "DejaVu Sans")
 
 #set align(center)
 
-#text(size: 50pt)[AHOJ MATY]
-
-#text(size: 50pt)[DNES JE]
-
-#text(size: 60pt)[<%= @day_name %>]
+#text(size: 35pt)[<%= @day_name %>]
 
 #text(size: 35pt)[<%= @date %>]
 
-#text(size: 60pt)[<%= @part_of_day %>]
+#text(size: 35pt)[<%= @part_of_day %>]
 
-#text(size: 60pt)[<%= @season %>]
+#text(size: 35pt)[<%= @season %>]
 
 #set align(right + bottom)
 
+#let today(content) = table.cell(text(content, fill: luma(100%), size: 22pt), fill: luma(0%))
+
+#let weekend(content) = table.cell(text(content, fill: luma(0%)), fill: luma(70%))
+
+#let other_month(content) = table.cell(text(content, fill: luma(80%)), fill: luma(100%))
+
+#set text(size: 18pt)
+
 #text(size: 12pt, weight: "regular")[<%= @generated_at %>]
+
+#table(
+  columns: (1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
+  align: center,
+  inset: (left: 2pt, right: 2pt, top: 20pt, bottom: 20pt),
+  stroke: luma(50%),
+  fill: luma(90%),
+  other_month([28]), [1], [2], [3], [4], weekend([5]), weekend([6]),
+  [7], [8], [9], [10], [11], weekend([12]), weekend([13]),
+  [14], [15], [16], [17], [18], weekend([19]), weekend([21]),
+  [21], [22], [23], [24], [25], weekend([26]), weekend([27]),
+  today([28]), [29], [30], other_month([1]), other_month([2]), other_month([3]), other_month([4]),
+)

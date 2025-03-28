@@ -15,4 +15,4 @@ RUN elixir -e 'Mix.install([:tzdata])'
 COPY image.typ.eex .
 COPY script.exs .
 
-ENTRYPOINT ["/bin/sh", "-c", "mkdir -p images && elixir script.exs && typst compile --format png --ppi 72 image.typ images/image.png && magick images/image.png -colorspace Gray images/image.png"]
+ENTRYPOINT ["/bin/sh", "-c", "mkdir -p images && elixir script.exs && typst compile --format png --ppi 72 image.typ images/image.png && magick images/image.png -colorspace Gray images/image.png && magick images/image.png -rotate 90 images/image.png"]
