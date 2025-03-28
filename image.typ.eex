@@ -1,4 +1,4 @@
-#set page(width: 600pt, height: 800pt, margin: 5pt)
+#set page(width: 800pt, height: 600pt, margin: 5pt)
 
 #set text(weight: "bold", font: "DejaVu Sans")
 
