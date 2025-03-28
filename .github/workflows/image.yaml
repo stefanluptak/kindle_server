@@ -1,0 +1,27 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-image:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - run: docker build -t typst-elixir .
+
+      - run: docker run --rm -v "$(pwd):/workspace" typst-elixir
+
+      - uses: actions/configure-pages@v5
+      
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'images'
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

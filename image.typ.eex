@@ -1,0 +1,5 @@
+#set page(width: 600pt, height: 800pt)
+
+#text(size: 30pt, weight: "bold")[Hello, <%= @name %>!]
+
+It's <%= @time %>
