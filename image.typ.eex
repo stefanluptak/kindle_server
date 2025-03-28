@@ -1,5 +1,21 @@
-#set page(width: 600pt, height: 800pt)
+#set page(width: 600pt, height: 800pt, margin: 5%)
 
-#text(size: 30pt, weight: "bold")[Hello, <%= @name %>!]
+#set text(weight: "bold", font: "DejaVu Sans")
 
-It's <%= @time %>
+#set align(center)
+
+#text(size: 50pt)[AHOJ MATY]
+
+#text(size: 50pt)[DNES JE]
+
+#text(size: 60pt)[<%= @day_name %>]
+
+#text(size: 35pt)[<%= @date %>]
+
+#text(size: 60pt)[<%= @part_of_day %>]
+
+#text(size: 60pt)[<%= @season %>]
+
+#set align(right + bottom)
+
+#text(size: 12pt, weight: "regular")[<%= @generated_at %>]
