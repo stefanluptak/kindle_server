@@ -35,7 +35,7 @@ defmodule Dashboard do
       calendar: calendar(today),
       day_name: day_name(today),
       full_date: full_date(now),
-      generated_at: Calendar.strftime(now, "%d.%m.%Y o %H:%M"),
+      generated_at: Calendar.strftime(now, "%H:%M"),
       month_name: month_name(today),
       namesday: namesday(today),
       part_of_day: part_of_day(now),
@@ -93,7 +93,7 @@ defmodule Dashboard do
   end
 
   @spec now :: DateTIme.t()
-  defp now do
+  def now do
     Calendar.put_time_zone_database(Tzdata.TimeZoneDatabase)
 
     DateTime.utc_now()
@@ -136,15 +136,14 @@ defmodule Dashboard do
 
   @spec part_of_day(DateTime.t()) :: String.t()
   defp part_of_day(now) do
-    {hour, minute, _second} = now |> DateTime.to_time() |> Time.to_erl()
+    {hour, _minute, _second} = now |> DateTime.to_time() |> Time.to_erl()
 
     cond do
-      hour < 6 -> "NOC"
-      hour == 6 and minute < 30 -> "NOC"
+      hour < 7 -> "NOC"
       hour < 9 -> "RÁNO"
       hour < 12 -> "DOOBEDA"
-      hour < 17 -> "POOBEDE"
-      hour < 20 -> "VEČER"
+      hour < 18 -> "POOBEDE"
+      hour < 21 -> "VEČER"
       true -> "NOC"
     end
   end
@@ -169,6 +168,6 @@ defmodule Dashboard do
   @spec full_date(Date.t()) :: String.t()
   defp full_date(today) do
     month_name = month_name(today)
-    Calendar.strftime(today, "%d. #{month_name} %Y")
+    Calendar.strftime(today, "#{month_name} %Y")
   end
 end

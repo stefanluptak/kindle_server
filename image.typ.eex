@@ -5,60 +5,25 @@
 #let generated_at = "<%= @generated_at %>"
 #let namesday = "<%= @namesday %>"
 
-#let page_width = 600pt
-#set page(width: page_width, height: 800pt, margin: 5pt)
+#set page(width: 800pt, height: 600pt, margin: 0pt)
 
 #set text(weight: "bold", font: "Inter")
 
-#set align(center)
-
-#let grow_text_to_fit(body, max) = context {
-    let measured_width = measure(body).width
-    let maximum_width = (max - 330pt).cm()
-    let font_size = text.size
-
-    while measured_width.cm() < maximum_width {
-        font_size += 0.1pt
-        measured_width = measure(text(size: font_size)[#body]).width
-    }
-
-    text(size: font_size)[#body]
-}
-
-#set par(spacing: 30pt)
-
-#v(20pt)
-
-#grow_text_to_fit([#day_name], page_width)
-
-#grow_text_to_fit([#full_date], page_width)
-
-#grow_text_to_fit([#part_of_day], page_width)
-
-#grow_text_to_fit([#season], page_width)
-
-#grow_text_to_fit([#namesday], page_width)
-
-#set align(right + bottom)
-
-#let today(content) = table.cell(text(content, fill: luma(100%), size: 22pt), fill: luma(0%))
+#let today(content) = table.cell(text(content, fill: luma(100%)), fill: luma(0%))
 #let weekday(content) = table.cell(text(content, fill: luma(0%)), fill: luma(85%))
 #let weekend(content) = table.cell(text(content, fill: luma(0%)), fill: luma(75%))
 #let other_weekday(content) = table.cell(text(content, fill: luma(60%)), fill: luma(95%))
 #let other_weekend(content) = table.cell(text(content, fill: luma(60%)), fill: luma(90%))
 
-#set text(size: 18pt)
-
-#set par(spacing: 10pt)
-
-#text(size: 12pt, weight: "regular")[#generated_at]
+#set text(size: 30pt)
 
 #table(
   columns: (1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
   align: center,
-  inset: (left: 2pt, right: 2pt, top: 20pt, bottom: 20pt),
-  stroke: luma(50%),
+  inset: (left: 2pt, right: 2pt, top: 18pt, bottom: 18pt),
+  stroke: luma(40%),
   fill: luma(90%),
+  table.cell(colspan: 7, fill: luma(0%))[#text(fill: luma(100%), size: 32pt)[#h(1.1fr) #full_date #h(0.9fr)#text(size: 13pt, fill: luma(40%))[#generated_at #h(40pt)]]],
   <%= Enum.map(@calendar, fn 
      {:today, day} -> "today()[#{day}],"
      {:weekday, day} -> "weekday()[#{day}],"
@@ -67,3 +32,21 @@
      {:other_weekend, day} -> "other_weekend()[#{day}],"
   end) %>
 )
+
+#set align(bottom + center)
+#set text(size: 56pt)
+#set par(spacing: 38pt)
+
+#h(10pt)
+#day_name
+#h(1fr)
+#part_of_day
+#h(10pt)
+
+#h(10pt)
+#namesday
+#h(1fr)
+#season
+#h(10pt)
+
+#v(28pt)
