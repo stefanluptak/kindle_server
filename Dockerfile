@@ -8,11 +8,11 @@ RUN wget https://github.com/typst/typst/releases/download/v0.13.1/typst-x86_64-u
 
 WORKDIR /workspace
 
-ENV MIX_HOME=/opt/mix
-
-RUN elixir -e 'Mix.install([:tzdata])'
+ENV MIX_ENV=prod
 
 COPY image.typ.eex .
-COPY script.exs .
+COPY dashboard ./dashboard
 
-ENTRYPOINT ["/bin/sh", "-c", "mkdir -p images && elixir script.exs && typst compile --format png --ppi 72 image.typ images/image.png && magick images/image.png -colorspace Gray images/image.png && magick images/image.png -rotate 90 images/image.png"]
+RUN cd dashboard && mix deps.get
+
+ENTRYPOINT ["/bin/sh", "-c", "mkdir -p images && cd dashboard && mix do deps.get, run -e \"Dashboard.new() |> Dashboard.render()\" && mv image.typ ../ && cd .. && typst compile --format png --ppi 72 image.typ images/image.png && magick images/image.png -colorspace Gray images/image.png"]

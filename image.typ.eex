@@ -1,28 +1,52 @@
-#set page(width: 800pt, height: 600pt, margin: 5pt)
+#let day_name = "<%= @day_name %>"
+#let full_date = "<%= @full_date %>"
+#let part_of_day = "<%= @part_of_day %>"
+#let season = "<%= @season %>"
+#let generated_at = "<%= @generated_at %>"
 
-#set text(weight: "bold", font: "DejaVu Sans")
+#let page_width = 600pt
+#set page(width: page_width, height: 800pt, margin: 5pt)
+
+#set text(weight: "bold", font: "DeJavu Sans")
 
 #set align(center)
 
-#text(size: 35pt)[<%= @day_name %>]
+#let grow_text_to_fit(body, max) = context {
+    let measured_width = measure(body).width
+    let maximum_width = (max - 250pt).cm()
+    let font_size = text.size
 
-#text(size: 35pt)[<%= @date %>]
+    while measured_width.cm() < maximum_width {
+        font_size += 0.1pt
+        measured_width = measure(text(size: font_size)[#body]).width
+    }
 
-#text(size: 35pt)[<%= @part_of_day %>]
+    text(size: font_size)[#body]
+}
 
-#text(size: 35pt)[<%= @season %>]
+#set par(spacing: 30pt)
+
+#v(20pt)
+
+#grow_text_to_fit([#day_name], page_width)
+
+#grow_text_to_fit([#full_date], page_width)
+
+#grow_text_to_fit([#part_of_day], page_width)
+
+#grow_text_to_fit([#season], page_width)
 
 #set align(right + bottom)
 
 #let today(content) = table.cell(text(content, fill: luma(100%), size: 22pt), fill: luma(0%))
-
-#let weekend(content) = table.cell(text(content, fill: luma(0%)), fill: luma(70%))
-
-#let other_month(content) = table.cell(text(content, fill: luma(80%)), fill: luma(100%))
+#let weekday(content) = table.cell(text(content, fill: luma(0%)), fill: luma(85%))
+#let weekend(content) = table.cell(text(content, fill: luma(0%)), fill: luma(75%))
+#let other_weekday(content) = table.cell(text(content, fill: luma(60%)), fill: luma(95%))
+#let other_weekend(content) = table.cell(text(content, fill: luma(60%)), fill: luma(90%))
 
 #set text(size: 18pt)
 
-#text(size: 12pt, weight: "regular")[<%= @generated_at %>]
+#text(size: 12pt, weight: "regular")[#generated_at]
 
 #table(
   columns: (1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
@@ -30,9 +54,11 @@
   inset: (left: 2pt, right: 2pt, top: 20pt, bottom: 20pt),
   stroke: luma(50%),
   fill: luma(90%),
-  other_month([28]), [1], [2], [3], [4], weekend([5]), weekend([6]),
-  [7], [8], [9], [10], [11], weekend([12]), weekend([13]),
-  [14], [15], [16], [17], [18], weekend([19]), weekend([21]),
-  [21], [22], [23], [24], [25], weekend([26]), weekend([27]),
-  today([28]), [29], [30], other_month([1]), other_month([2]), other_month([3]), other_month([4]),
+  <%= Enum.map(@calendar, fn 
+     {:today, day} -> "today()[#{day}],"
+     {:weekday, day} -> "weekday()[#{day}],"
+     {:weekend, day} -> "weekend()[#{day}],"
+     {:other_weekday, day} -> "other_weekday()[#{day}],"
+     {:other_weekend, day} -> "other_weekend()[#{day}],"
+  end) %>
 )
