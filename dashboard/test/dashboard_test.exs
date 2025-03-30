@@ -4,7 +4,13 @@ defmodule DashboardTest do
   describe "#new" do
   end
 
-  describe "#calendar" do
+  describe "#namesday/1" do
+    test "success" do
+      assert Dashboard.namesday(~D[2025-03-30]) == "Vieroslava"
+    end
+  end
+
+  describe "#calendar/1" do
     test "success" do
       now = ~U[2025-03-29 08:35:00Z]
 

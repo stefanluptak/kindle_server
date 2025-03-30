@@ -3,17 +3,18 @@
 #let part_of_day = "<%= @part_of_day %>"
 #let season = "<%= @season %>"
 #let generated_at = "<%= @generated_at %>"
+#let namesday = "<%= @namesday %>"
 
 #let page_width = 600pt
 #set page(width: page_width, height: 800pt, margin: 5pt)
 
-#set text(weight: "bold", font: "DeJavu Sans")
+#set text(weight: "bold", font: "Inter")
 
 #set align(center)
 
 #let grow_text_to_fit(body, max) = context {
     let measured_width = measure(body).width
-    let maximum_width = (max - 250pt).cm()
+    let maximum_width = (max - 330pt).cm()
     let font_size = text.size
 
     while measured_width.cm() < maximum_width {
@@ -36,6 +37,8 @@
 
 #grow_text_to_fit([#season], page_width)
 
+#grow_text_to_fit([#namesday], page_width)
+
 #set align(right + bottom)
 
 #let today(content) = table.cell(text(content, fill: luma(100%), size: 22pt), fill: luma(0%))
@@ -45,6 +48,8 @@
 #let other_weekend(content) = table.cell(text(content, fill: luma(60%)), fill: luma(90%))
 
 #set text(size: 18pt)
+
+#set par(spacing: 10pt)
 
 #text(size: 12pt, weight: "regular")[#generated_at]
 

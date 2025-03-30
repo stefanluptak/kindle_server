@@ -1,6 +1,6 @@
 defmodule Dashboard do
   @moduledoc false
-
+  alias Dashboard.Namesdays
   # styler:sort
   @type t :: %__MODULE__{
           season: String.t(),
@@ -9,7 +9,8 @@ defmodule Dashboard do
           month_name: String.t(),
           full_date: String.t(),
           generated_at: String.t(),
-          calendar: [{atom(), pos_integer()}]
+          calendar: [{atom(), pos_integer()}],
+          namesday: String.t()
         }
 
   # styler:sort
@@ -19,6 +20,7 @@ defmodule Dashboard do
     :full_date,
     :generated_at,
     :month_name,
+    :namesday,
     :part_of_day,
     :season
   ]
@@ -26,16 +28,18 @@ defmodule Dashboard do
   @spec new(DateTime.t() | nil) :: t()
   def new(now \\ nil) do
     now = now || now()
+    today = DateTime.to_date(now)
 
     # styler:sort
     %__MODULE__{
-      calendar: calendar(now),
-      day_name: day_name(now),
+      calendar: calendar(today),
+      day_name: day_name(today),
       full_date: full_date(now),
       generated_at: Calendar.strftime(now, "%d.%m.%Y o %H:%M"),
-      month_name: month_name(now),
+      month_name: month_name(today),
+      namesday: namesday(today),
       part_of_day: part_of_day(now),
-      season: season(now)
+      season: season(today)
     }
   end
 
@@ -47,22 +51,20 @@ defmodule Dashboard do
     File.write!("image.typ", typ)
   end
 
-  @spec calendar(DateTime.t()) :: []
-  def calendar(now) do
+  @spec calendar(Date.t()) :: []
+  def calendar(today) do
     from =
-      now
-      |> DateTime.to_date()
+      today
       |> Date.beginning_of_month()
       |> Date.beginning_of_week()
 
     to =
-      now
-      |> DateTime.to_date()
+      today
       |> Date.end_of_month()
       |> Date.end_of_week()
 
-    current_day = now.day
-    current_month = now.month
+    current_day = today.day
+    current_month = today.month
 
     Enum.map(Date.range(from, to), fn date ->
       if date.month == current_month do
@@ -85,6 +87,11 @@ defmodule Dashboard do
     end)
   end
 
+  @spec namesday(Date.t()) :: String.t()
+  def namesday(today) do
+    String.upcase(Namesdays.get_name!(today))
+  end
+
   @spec now :: DateTIme.t()
   defp now do
     Calendar.put_time_zone_database(Tzdata.TimeZoneDatabase)
@@ -94,23 +101,21 @@ defmodule Dashboard do
     |> DateTime.truncate(:second)
   end
 
-  @spec day_of_week_index(DateTime.t()) :: pos_integer()
-  defp day_of_week_index(now) do
-    now
-    |> DateTime.to_date()
-    |> Date.day_of_week()
+  @spec day_of_week_index(Date.t()) :: pos_integer()
+  defp day_of_week_index(today) do
+    Date.day_of_week(today)
   end
 
-  @spec day_name(DateTime.t()) :: String.t()
-  def day_name(now) do
+  @spec day_name(Date.t()) :: String.t()
+  def day_name(today) do
     Enum.at(
       [nil, "PONDELOK", "UTOROK", "STREDA", "ŠTVRTOK", "PIATOK", "SOBOTA", "NEDEĽA"],
-      day_of_week_index(now)
+      day_of_week_index(today)
     )
   end
 
-  @spec month_name(DateTime.t()) :: String.t()
-  def month_name(now) do
+  @spec month_name(Date.t()) :: String.t()
+  def month_name(today) do
     Enum.at(
       [
         nil,
@@ -125,18 +130,13 @@ defmodule Dashboard do
         "NOVEMBER",
         "DECEMBER"
       ],
-      month_index(now)
+      today.month
     )
-  end
-
-  @spec month_index(DateTime.t()) :: pos_integer()
-  def month_index(%DateTime{} = now) do
-    now.month
   end
 
   @spec part_of_day(DateTime.t()) :: String.t()
   defp part_of_day(now) do
-    {{_year, _month, _day}, {hour, minute, _second}} = to_erl(now)
+    {hour, minute, _second} = now |> DateTime.to_time() |> Time.to_erl()
 
     cond do
       hour < 6 -> "NOC"
@@ -149,9 +149,9 @@ defmodule Dashboard do
     end
   end
 
-  @spec season(DateTime.t()) :: String.t()
-  defp season(now) do
-    {{_year, month, day}, {_hour, _minute, _second}} = to_erl(now)
+  @spec season(Date.t()) :: String.t()
+  defp season(today) do
+    {_year, month, day} = Date.to_erl(today)
 
     cond do
       month < 3 -> "ZIMA"
@@ -166,16 +166,9 @@ defmodule Dashboard do
     end
   end
 
-  @spec full_date(DateTime.t()) :: String.t()
-  defp full_date(now) do
-    month_name = month_name(now)
-    Calendar.strftime(now, "%d. #{month_name} %Y")
-  end
-
-  @spec to_erl(DateTime.t()) :: :calendar.date()
-  defp to_erl(now) do
-    now
-    |> DateTime.to_naive()
-    |> NaiveDateTime.to_erl()
+  @spec full_date(Date.t()) :: String.t()
+  defp full_date(today) do
+    month_name = month_name(today)
+    Calendar.strftime(today, "%d. #{month_name} %Y")
   end
 end
