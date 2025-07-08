@@ -125,6 +125,8 @@ defmodule Dashboard do
         "APRÍL",
         "MÁJ",
         "JÚN",
+        "JÚL",
+        "AUGUST",
         "SEPTEMBER",
         "OKTÓBER",
         "NOVEMBER",
