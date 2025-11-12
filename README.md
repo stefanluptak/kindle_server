@@ -21,4 +21,5 @@ be found at <https://hexdocs.pm/kindle_server>.
 
 ## Bumps
 
-1.
+1. 
+2. 2025-11-07

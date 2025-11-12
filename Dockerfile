@@ -1,4 +1,4 @@
-FROM "hexpm/elixir:1.18.3-erlang-27.3-alpine-3.21.3"
+FROM "hexpm/elixir:1.19.2-erlang-28.1-alpine-3.22.2"
 
 RUN apk add --no-cache imagemagick font-inter
 

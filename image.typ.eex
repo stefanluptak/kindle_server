@@ -36,7 +36,7 @@
 )
 
 #set align(bottom + center)
-#set text(size: 56pt)
+#set text(size: 40pt)
 #set par(spacing: 38pt)
 
 #table(
@@ -44,9 +44,9 @@
   align: (left, right),
   inset: (left: 20pt, right: 20pt, top: 12pt, bottom: 12pt),
   stroke: none,
-  [#day_name], [Maty #days_until_matys_birthday],
-  [#namesday], [Mama #days_until_moms_birthday],
-  [#season], [Tatino #days_until_dads_birthday],
+  [#day_name], [MATY #days_until_matys_birthday],
+  [#namesday], [MAMA #days_until_moms_birthday],
+  [#season], [TATINO #days_until_dads_birthday],
 )
 
 #v(18pt)
