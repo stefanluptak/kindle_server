@@ -10,7 +10,10 @@ defmodule Dashboard do
           full_date: String.t(),
           generated_at: String.t(),
           calendar: [{atom(), pos_integer()}],
-          namesday: String.t()
+          namesday: String.t(),
+          days_until_matys_birthday: non_neg_integer(),
+          days_until_moms_birthday: non_neg_integer(),
+          days_until_dads_birthday: non_neg_integer()
         }
 
   # styler:sort
@@ -22,7 +25,10 @@ defmodule Dashboard do
     :month_name,
     :namesday,
     :part_of_day,
-    :season
+    :season,
+    :days_until_matys_birthday,
+    :days_until_moms_birthday,
+    :days_until_dads_birthday
   ]
 
   @spec new(DateTime.t() | nil) :: t()
@@ -39,7 +45,10 @@ defmodule Dashboard do
       month_name: month_name(today),
       namesday: namesday(today),
       part_of_day: part_of_day(now),
-      season: season(today)
+      season: season(today),
+      days_until_matys_birthday: days_until(today, 03, 13),
+      days_until_moms_birthday: days_until(today, 08, 24),
+      days_until_dads_birthday: days_until(today, 12, 05)
     }
   end
 
@@ -171,5 +180,18 @@ defmodule Dashboard do
   defp full_date(today) do
     month_name = month_name(today)
     Calendar.strftime(today, "#{month_name} %Y")
+  end
+
+  @spec days_until(Date.t(), pos_integer(), pos_integer()) :: non_neg_integer()
+  defp days_until(today, month, day) do
+    this_year_date = Date.new!(today.year, month, day)
+    diff = Date.diff(this_year_date, today)
+
+    if diff >= 0 do
+      diff
+    else
+      next_year_date = Date.new!(today.year + 1, month, day)
+      Date.diff(next_year_date, today)
+    end
   end
 end

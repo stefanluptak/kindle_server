@@ -5,7 +5,7 @@ defmodule Dashboard.MixProject do
     [
       app: :dashboard,
       version: "0.1.0",
-      elixir: "~> 1.18.0",
+      elixir: "~> 1.19.0",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]

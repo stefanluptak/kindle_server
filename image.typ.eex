@@ -1,9 +1,11 @@
 #let day_name = "<%= @day_name %>"
 #let full_date = "<%= @full_date %>"
-#let part_of_day = "<%= @part_of_day %>"
 #let season = "<%= @season %>"
 #let generated_at = "<%= @generated_at %>"
 #let namesday = "<%= @namesday %>"
+#let days_until_matys_birthday = "<%= @days_until_matys_birthday %>"
+#let days_until_moms_birthday = "<%= @days_until_moms_birthday %>"
+#let days_until_dads_birthday = "<%= @days_until_dads_birthday %>"
 
 #set page(width: 800pt, height: 600pt, margin: 0pt)
 
@@ -37,16 +39,15 @@
 #set text(size: 56pt)
 #set par(spacing: 38pt)
 
-#h(10pt)
-#day_name
-#h(1fr)
-#part_of_day
-#h(10pt)
+#table(
+  columns: (1fr, auto),
+  align: (left, right),
+  inset: (left: 20pt, right: 20pt, top: 12pt, bottom: 12pt),
+  stroke: none,
+  [#day_name], [Maty #days_until_matys_birthday],
+  [#namesday], [Mama #days_until_moms_birthday],
+  [#season], [Tatino #days_until_dads_birthday],
+)
 
-#h(10pt)
-#namesday
-#h(1fr)
-#season
-#h(10pt)
+#v(18pt)
 
-#v(28pt)
