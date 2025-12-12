@@ -13,7 +13,8 @@ defmodule Dashboard do
           namesday: String.t(),
           days_until_matys_birthday: non_neg_integer(),
           days_until_moms_birthday: non_neg_integer(),
-          days_until_dads_birthday: non_neg_integer()
+          days_until_dads_birthday: non_neg_integer(),
+          days_until_school: non_neg_integer()
         }
 
   # styler:sort
@@ -28,7 +29,8 @@ defmodule Dashboard do
     :season,
     :days_until_matys_birthday,
     :days_until_moms_birthday,
-    :days_until_dads_birthday
+    :days_until_dads_birthday,
+    :days_until_school
   ]
 
   @spec new(DateTime.t() | nil) :: t()
@@ -48,7 +50,8 @@ defmodule Dashboard do
       season: season(today),
       days_until_matys_birthday: days_until(today, 03, 13),
       days_until_moms_birthday: days_until(today, 08, 24),
-      days_until_dads_birthday: days_until(today, 12, 05)
+      days_until_dads_birthday: days_until(today, 12, 05),
+      days_until_school: days_until(today, 09, 01)
     }
   end
 

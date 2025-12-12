@@ -6,6 +6,7 @@
 #let days_until_matys_birthday = "<%= @days_until_matys_birthday %>"
 #let days_until_moms_birthday = "<%= @days_until_moms_birthday %>"
 #let days_until_dads_birthday = "<%= @days_until_dads_birthday %>"
+#let days_until_school = "<%= @days_until_school %>"
 
 #set page(width: 800pt, height: 600pt, margin: 0pt)
 
@@ -17,16 +18,16 @@
 #let other_weekday(content) = table.cell(text(content, fill: luma(60%)), fill: luma(95%))
 #let other_weekend(content) = table.cell(text(content, fill: luma(60%)), fill: luma(90%))
 
-#set text(size: 30pt)
+#set text(size: 24pt)
 
 #table(
   columns: (1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
   align: center,
-  inset: (left: 2pt, right: 2pt, top: 18pt, bottom: 18pt),
+  inset: (left: 2pt, right: 2pt, top: 14pt, bottom: 14pt),
   stroke: luma(40%),
   fill: luma(90%),
   table.cell(colspan: 7, fill: luma(0%))[#text(fill: luma(100%), size: 32pt)[#h(1.1fr) #full_date #h(0.9fr)#text(size: 13pt, fill: luma(40%))[#generated_at #h(40pt)]]],
-  <%= Enum.map(@calendar, fn 
+  <%= Enum.map(@calendar, fn
      {:today, day} -> "today()[#{day}],"
      {:weekday, day} -> "weekday()[#{day}],"
      {:weekend, day} -> "weekend()[#{day}],"
@@ -36,7 +37,7 @@
 )
 
 #set align(bottom + center)
-#set text(size: 44pt)
+#set text(size: 36pt)
 #set par(spacing: 38pt)
 
 #table(
@@ -44,10 +45,10 @@
   align: (left, right),
   inset: (left: 20pt, right: 20pt, top: 12pt, bottom: 12pt),
   stroke: none,
+  [], [ŠKOLA #days_until_school],
   [#day_name], [MATY #days_until_matys_birthday],
   [#namesday], [MAMA #days_until_moms_birthday],
   [#season], [TATINO #days_until_dads_birthday],
 )
 
 #v(18pt)
-
