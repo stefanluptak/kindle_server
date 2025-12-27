@@ -7,6 +7,7 @@
 #let days_until_moms_birthday = "<%= @days_until_moms_birthday %>"
 #let days_until_dads_birthday = "<%= @days_until_dads_birthday %>"
 #let days_until_school = "<%= @days_until_school %>"
+#let days_until_christmas = "<%= @days_until_christmas %>"
 
 #set page(width: 800pt, height: 600pt, margin: 0pt)
 
@@ -45,7 +46,7 @@
   align: (left, right),
   inset: (left: 20pt, right: 20pt, top: 12pt, bottom: 12pt),
   stroke: none,
-  [], [ŠKOLA #days_until_school],
+  [VIANOCE #days_until_christmas], [ŠKOLA #days_until_school],
   [#day_name], [MATY #days_until_matys_birthday],
   [#namesday], [MAMA #days_until_moms_birthday],
   [#season], [TATINO #days_until_dads_birthday],

@@ -14,7 +14,8 @@ defmodule Dashboard do
           days_until_matys_birthday: non_neg_integer(),
           days_until_moms_birthday: non_neg_integer(),
           days_until_dads_birthday: non_neg_integer(),
-          days_until_school: non_neg_integer()
+          days_until_school: non_neg_integer(),
+          days_until_christmas: non_neg_integer()
         }
 
   # styler:sort
@@ -30,7 +31,8 @@ defmodule Dashboard do
     :days_until_matys_birthday,
     :days_until_moms_birthday,
     :days_until_dads_birthday,
-    :days_until_school
+    :days_until_school,
+    :days_until_christmas
   ]
 
   @spec new(DateTime.t() | nil) :: t()
@@ -51,7 +53,8 @@ defmodule Dashboard do
       days_until_matys_birthday: days_until(today, 03, 13),
       days_until_moms_birthday: days_until(today, 08, 24),
       days_until_dads_birthday: days_until(today, 12, 05),
-      days_until_school: days_until(today, 09, 01)
+      days_until_school: days_until(today, 09, 01),
+      days_until_christmas: days_until(today, 12, 24)
     }
   end
 
