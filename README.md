@@ -23,3 +23,4 @@ be found at <https://hexdocs.pm/kindle_server>.
 
 1. 
 2. 2025-11-07
+3. 2026-02-20
